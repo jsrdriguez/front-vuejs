@@ -1,5 +1,10 @@
 <script setup>
+import { useCartStore } from '@/stores/cart.store'
 import Header from './components/layout/Header.vue';
+
+const storeCart = useCartStore();
+
+storeCart.loadCartProducts();
 </script>
 
 <template>

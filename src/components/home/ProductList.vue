@@ -6,7 +6,8 @@ const props = defineProps({
     type: Array,
     default: []
   },
-  onSearch: Function
+  onSearch: Function,
+  onAddCart: Function
 })
 
 const searchTitle = ref('');
@@ -63,7 +64,7 @@ function handlerSearch() {
               </div>
               <div class="flex align-items-center justify-content-between">
                 <span class="text-2xl font-semibold">${{ item.price }}</span>
-                <Button icon="pi pi-cart-plus" rounded :disabled="item.rating.count === 0"></Button>
+                <Button icon="pi pi-cart-plus" rounded :disabled="item.rating.count === 0" @click="() => onAddCart(item)"></Button>
               </div>
             </div>
           </div>
@@ -89,7 +90,7 @@ function handlerSearch() {
                 </div>
                 <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
                   <span class="text-2xl font-semibold">${{ item.price }}</span>
-                  <Button class="mt-3" icon="pi pi-cart-plus" rounded :disabled="item.rating.count === 0"></Button>
+                  <Button class="mt-3" icon="pi pi-cart-plus" rounded :disabled="item.rating.count === 0" @click="() => onAddCart(item)"></Button>
                 </div>
                 </div>
             </div>

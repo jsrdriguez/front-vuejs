@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, markRaw } from 'vue'
 import PrimeVue from 'primevue/config';
 import { createPinia } from 'pinia'
 
@@ -110,6 +110,9 @@ const app = createApp(App);
 const pinia = createPinia()
 
 app.use(pinia)
+pinia.use(({ store }) => {
+  store.$router = markRaw(router)
+});
 app.use(router)
 app.use(PrimeVue, { ripple: true  });
 app.use(ConfirmationService);
@@ -123,6 +126,9 @@ app.config.globalProperties.$filters = {
   split(str, count = 50) {
     if (str.length < 50) return str;
     return str.slice(0, count)+"...";
+  },
+  formatCurrency(value){
+    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
   }
 }
 

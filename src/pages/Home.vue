@@ -10,6 +10,7 @@
       <ProductList 
         :products="products"
         :onSearch="titleProduct"
+        :onAddCart="handlerAddCart"
       />
     </div>
   </div>
@@ -17,15 +18,22 @@
 
 <script setup>
 import { storeToRefs } from 'pinia'
+
 import { useProductStore } from '@/stores/product.store'
+import { useCartStore } from '@/stores/cart.store'
 
 import CategoryList from '../components/home/CategoryList.vue';
 import ProductList from '../components/home/ProductList.vue';
 
 const store = useProductStore()
+const storeCart = useCartStore()
 const { categories, products } = storeToRefs(store)
 
 store.init();
+
+function handlerAddCart(product) {
+  storeCart.addCart(product);
+}
 
 function titleProduct(params) {
   if (params["title"] === "") {

@@ -11,17 +11,9 @@ export const useProductStore = defineStore('product', {
     }
   }),
   actions: {
-    productByTitle(title) {
-      this.searchParams = {...this.searchParams, title}
-      const productsData = [...this.products];
-      const filter = productsData.filter(product => product.title.toLowerCase().indexOf(title.toLowerCase()) > -1);
-
-      this.products = filter;
-    },
     async getProducts(params) {
       this.searchParams = {...this.searchParams, ...params}
       const { title, category } = this.searchParams;
-      
       if (title === "" && category === "") {
         const products = await api.getProducts();
         this.products = products.data;
@@ -34,8 +26,10 @@ export const useProductStore = defineStore('product', {
       }
 
       if (title !== "" && category === "") {
+        const products = await api.getProducts();
+        this.products = products.data;
+        
         this.productByTitle(title);
-        return
       }
     },
     async init() {
@@ -49,6 +43,13 @@ export const useProductStore = defineStore('product', {
       this.searchParams = {...this.searchParams, category}
       const products = await api.getProductByCategory(category);
       this.products = products.data;
+    },
+    productByTitle(title) {
+      this.searchParams = {...this.searchParams, title}
+      const productsData = [...this.products];
+      const filter = productsData.filter(product => product.title.toLowerCase().indexOf(title.toLowerCase()) > -1);
+
+      this.products = filter;
     },
   },
   getters: {
